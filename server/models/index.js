@@ -34,4 +34,14 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+//---association
+const { post, comment, tag, user } = sequelize.models;
+
+user.hasMany(comment);//1대다
+user.hasMany(post);
+post.hasMany(comment);
+post.belongsToMany(tag);//다대다
+//---
+
+
 module.exports = db;
