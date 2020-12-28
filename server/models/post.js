@@ -11,11 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Post.hasMany(Comment, {
-        foreignKey: {
-          name: 'postId'
-        }
-      })
+      // const { post, comment, tag, user } = sequelize.models;
+      // models.post.hasMany(models.comment, {
+      //   foreignKey: {
+      //     name: 'postId'
+      //   }
+      // })
+      // models.post.hasMany(comment);
+      // models.post.belongsToMany(tag);//다대다
+      // models.post.belongsToMany(models.tag, {through: 'post_tag'});
+      
+      // const { post, comment, tag, user } = sequelize.models;
+      // post.belongsToMany(tag, {through: 'post_tag'});
     }
   };
   Post.init({
