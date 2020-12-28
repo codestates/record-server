@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // models.tag.belongsToMany(models.post, {through: 'post_tag'});
+      
+      // const { post, comment, tag, user } = sequelize.models;
+      // tag.belongsToMany(post, {through: 'post_tag'});
     }
   };
   Tag.init({
