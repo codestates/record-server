@@ -4,6 +4,7 @@ module.exports = {
   auth : require('./auth'),
   login : require('./login'),
   mypage : require('./mypage')
+  
 };
 
 // router.post('/register', usersController.register.registerPost);
