@@ -8,7 +8,7 @@ module.exports = async(req, res) => {
   //if(유효하지않으면) data:null message:"access token has been tempered"
   //else(유효하면)  data: userInfo message:"ok"
 
-  let token = req.headers['authorization'];
+  let token = req.headers['Authorization'];
   if(!token) {//! 위에서 split을 하면 null을 split하는 것이기때문에 에러가 뜸
     res.status(400).json({
       data: null,
