@@ -1,6 +1,6 @@
 
-const {user} = require('../../models');//user모델 가져오기
-const defaultImage = require('../../resources/empty-profile.png');//!
+const {User, sequelize} = require('../../models');//user모델 가져오기
+// const defaultImage = require('../../resources/empty-profile.png');//!
 
 module.exports = {
   post: async(req, res) => {
@@ -10,24 +10,31 @@ module.exports = {
     if(!email || !password || !username) {
       res.status(422).json({data: null, message: "insufficient parameters supplied"})
     }
-    
-    let [newUser, created] = await user.findOrCreate({
+    // console.log('------>>>>>>>>',User)
+    let [newUser, created] = await User.findOrCreate({
       where: {email: email},
       defaults: {
         username: username,
         password: password,
-        profileImg: defaultImage
+        // profileImg: defaultImage
       }
     })
 
     if(!created) {
       res.status(409).json("email exists")
     } else {
-      let {id, username, email, profileImg} = newUser;
-      res.status(201).json({data: {id, username, email, profileImg}, message: "successfully registered!"});
+      // console.log('-------->>>>>>>>>', newUser);
+      // let {id, username, email, profileImg} = newUser;
+      let {id, username, email} = newUser;
+      res.status(201).json({
+        data: {
+          // userInfo: {id, username, email, profileImg}
+          userInfo: {id, username, email}
+        }, 
+        message: "successfully registered!"
+      });
     }
 
 
-
-
-}
+  }
+};
