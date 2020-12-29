@@ -1,3 +1,4 @@
+
 const {user} = require('../../models');//user모델 가져오기
 const defaultImage = require('../../resources/empty-profile.png');//!
 
@@ -27,6 +28,6 @@ module.exports = {
     }
 
 
-  },
+
 
 }
