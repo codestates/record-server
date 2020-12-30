@@ -7,8 +7,8 @@ module.exports = async(req, res) => {
   //얘를 가지고 findOne을 해서 DB조회하고
   //if(유효하지않으면) data:null message:"access token has been tempered"
   //else(유효하면)  data: userInfo message:"ok"
-
-  let token = req.headers['Authorization'];
+  console.log('------->>>>>>>>',req.headers);
+  let token = req.headers['authorization'];
   if(!token) {//! 위에서 split을 하면 null을 split하는 것이기때문에 에러가 뜸
     res.status(400).json({
       data: null,
@@ -23,7 +23,7 @@ module.exports = async(req, res) => {
     }
   })
   if(!userInfo) {
-    res.status(400).json({
+    res.status(401).json({
       data:null,
       message:"access token has been tempered"
     })

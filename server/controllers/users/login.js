@@ -29,14 +29,18 @@ module.exports = {
       let REFRESH_TOKEN = jwt.sign({id, username, email, profileImg}, process.env.REFRESH_SECRET);
 
       res.cookie('refreshToken', REFRESH_TOKEN,
-        {
-          httpOnly: true,
-          secure: false,
-          sameSite: false
-        }
+        // {
+        //   httpOnly: true,
+        //   secure: false,
+        //   sameSite: false
+        // }//! http에서는 이 option이 필요없는 것 같다.
       );
       res.status(200).json({data: {accessToken: ACCESS_TOKEN}, message: "successfully token issued!"})
     }
 
   }
 }
+// {
+//   "email": "sdfsafd@sdaf.com",
+//   "password": "1234"
+// }
