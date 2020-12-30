@@ -1,6 +1,6 @@
 
 const {User, sequelize} = require('../../models');//user모델 가져오기
-// const defaultImage = require('../../resources/empty-profile.png');//!
+// const defaultImage = require('../../resources/empty-profile.png');//! 프론트에서 뿌려주기로 했음
 
 module.exports = {
   post: async(req, res) => {
@@ -24,11 +24,9 @@ module.exports = {
       res.status(409).json("email exists")
     } else {
       // console.log('-------->>>>>>>>>', newUser);
-      // let {id, username, email, profileImg} = newUser;
       let {id, username, email} = newUser;
       res.status(201).json({
         data: {
-          // userInfo: {id, username, email, profileImg}
           userInfo: {id, username, email}
         }, 
         message: "successfully registered!"

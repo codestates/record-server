@@ -18,7 +18,10 @@ module.exports = {
         type: Sequelize.TEXT
       },
       fileUrl: {
-        type: Sequelize.TEXT
+        type: Sequelize.BLOB
+      },
+      like: {
+        type: Sequelize.INTEGER
       },
       userId: {
         type: Sequelize.INTEGER,

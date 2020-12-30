@@ -17,6 +17,10 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      profileImg: {
+        type: Sequelize.BLOB,
+        allowNull: true//!프론트에서 디폴트이미지 뿌려줄때를 위해
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
