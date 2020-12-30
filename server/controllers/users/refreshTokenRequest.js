@@ -2,7 +2,9 @@ const {User} = require('../../models');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 module.exports = async(req, res) => {
-  let REFRESH_TOKEN = req.cookies.refreshToken;
+  let REFRESH_TOKEN = req.headers.cookie.split('=')[1];
+  console.log('----->>>>>',REFRESH_TOKEN);
+  // let REFRESH_TOKEN = req.cookies.refreshToken;->x
   if(!REFRESH_TOKEN) {
     res.status(400).json({
       data: null,

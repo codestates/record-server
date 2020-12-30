@@ -10,11 +10,11 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 // const session = require('express-session');
 
-const controllers = require('./controllers')
+const controllers = require('./controllers');//!
 
-app.use(cookieParser());//cookie-parser
+// app.use(cookieParser());//cookie-parser
 app.use(express.json());//body-parser -> json처리
-app.use(express.urlencoded({extended: false}));//body-parser -> ?처리
+// app.use(express.urlencoded({extended: false}));//body-parser -> ?처리
 
 // app.use(session({
 //   secrets: "@codestates",

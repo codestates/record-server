@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'User',//!!!!!!! 이 user모델을 require하는쪽에서는 이 이름을 써야함(대문자 주의)
   });
   return User;
 };
