@@ -1,10 +1,11 @@
+
 module.exports = {
   register : require('./register'),
   logout : require('./logout'),
-  auth : require('./auth'),
   login : require('./login'),
-  mypage : require('./mypage')
-  
+  mypage : require('./mypage'),//
+  accessTokenRequest: require('./accessTokenRequest'),
+  refreshTokenRequest: require('./refreshTokenRequest')
 };
 
 // router.post('/register', usersController.register.registerPost);
