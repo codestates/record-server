@@ -5,7 +5,11 @@ const {postsController} = require('../controllers');
 router.post('/create', postsController.create.post);
 router.put('/:id/update', postsController.update.put);
 router.delete('/:id/remove', postsController.remove.delete);
-router.post('/search', postsController.search.post);
-router.post('/tags', postsController.tags.post);
-router.post('/imageurl/create', postsController.imageurlcreate.post);
-router.post('/:id/imageurl/remove', postsController.imageurlremove.post);
+
+router.get('/read', postsController.read.getPosts);//랜딩페이지(처음화면)
+router.get('/user/read', postsController.read.getUserPosts);//유저의 post들
+router.get('/:id/read', postsController.read.getPost);//해당 id의 post한개
+
+router.get('/search', postsController.search.get);
+
+router.get('/:id/tags/read', postsController.tags.get);

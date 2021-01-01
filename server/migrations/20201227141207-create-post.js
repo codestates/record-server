@@ -17,8 +17,9 @@ module.exports = {
       contents: {
         type: Sequelize.TEXT
       },
-      fileUrl: {
-        type: Sequelize.BLOB
+      imageUrl: {
+        type: Sequelize.BLOB,
+        allowNull: true
       },
       like: {
         type: Sequelize.INTEGER

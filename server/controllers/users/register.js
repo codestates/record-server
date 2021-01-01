@@ -6,9 +6,12 @@ module.exports = {
   post: async(req, res) => {
     //회원가입
     // console.log('--------->>>>>>',req.body);
-    let {email, password, username} = req.body;
-    if(!email || !password || !username) {
+    let {email, username, password, passwordCheck} = req.body;
+    if(!email || !password || !username || !passwordCheck) {
       res.status(422).json({data: null, message: "insufficient parameters supplied"})
+    }
+    if(password !== passwordCheck) {
+      res.status(400).json({data: null, message: "passwordCheck does not correspond with password"})
     }
     // console.log('------>>>>>>>>',User)
     let [newUser, created] = await User.findOrCreate({
@@ -16,12 +19,11 @@ module.exports = {
       defaults: {
         username: username,
         password: password,
-        // profileImg: defaultImage
       }
     })
 
     if(!created) {
-      res.status(409).json("email exists")
+      res.status(409).json("email already exists");
     } else {
       // console.log('-------->>>>>>>>>', newUser);
       let {id, username, email} = newUser;

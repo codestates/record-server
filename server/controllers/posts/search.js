@@ -1,33 +1,53 @@
 const {Post, Sequelize} = require('../../models');
-const moment = require('moment');//최신날짜 subtract해주는 모듈
+const { Op } = require("sequelize");//!
+// const moment = require('moment');//최신날짜 subtract해주는 모듈
 
 module.exports = {
-  post: async(req, res) => {
-    let numberOfCards = req.body.numberOfCards;//요청받은 카드글 갯수
-    let listCondition = req.body.listCondition;//보내줄 조건(최신순'recent' or 좋아요순'like')
-    if(listCondition === 'like') {
-      const {count, rows} = await Post.findAndCountAll({
-        where: {
-          attributes: [Sequelize.fn('max', Sequelize.col('like'))]
-        },
-        limit: numberOfCards
-      })
-
-      res.status(200).json({data: [rows,count], message: "ok"});
+  get: async(req, res) => {
+    let {keywords} = req.body;
+    if(!keywords) {
+      res.status(400).json({data: null, message: "insufficent parameters supplied"})
     }
+    let arrayKeywords = keywords.split(' ');
     
-    else {//else if(listCondition === 'recent') {
-      const {count, rows} = await Post.findAndCountAll({
+    let allPosts = arrayKeywords.reduce(async(acc, keyword) => {
+      let foundPosts = await Post.findAll({
         where: {
-          createdAt: {
-            [Op.gte]: moment().subtract(7, 'days').toDate()
-          }
-        },
-        limit: numberOfCards
-      })
+          [Op.or]: [{
+              title: {
+                [Op.like]: `${keyword}%`,
+                [Op.like]: `%${keyword}%`,
+                [Op.like]: `%${keyword}` 
+              },
+              contents: {
+                [Op.like]: `${keyword}%`,
+                [Op.like]: `%${keyword}%`,
+                [Op.like]: `%${keyword}` 
+              }
+          }]
+        }
+      });
+      acc.concat(foundPosts);
+      return acc;
+    },[]);
+    let postIds = allPosts.reduce((acc, val) => {
+      if(acc.indexOf(val.dataValues.id) === -1) {
+        acc.push(val.dataValues.id);
+      }
+      return acc;
+    },[])
 
-      res.status(200).json({data: [rows,count], message: "ok"});
-    }
+    let results = postIds.map(async(postId) => {
+      let searchedPost = await Post.findOne({
+        where: {
+          id: postId
+        }
+      })
+      return searchedPost.dataValues
+    })
+
+    res.status(200).json({data: {postsData: results}, message: "searched ok"});
+
   }
 }
 

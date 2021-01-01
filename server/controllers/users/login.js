@@ -11,6 +11,12 @@ module.exports = {
     //쿠키에 refreshToken보내고
     //바디에 accessToken보내기
     // console.log('-------->>>>>>',req);
+
+    let {email, password} = req.body;
+    if(!email || !password) {//유효성 검사
+      res.status(422).json({data: null, message: "insufficient parameters supplied"})
+    }
+    
     let userInfo = await User.findOne({
       where: {
         email:req.body.email, 
@@ -19,14 +25,14 @@ module.exports = {
     });
     
     if(!userInfo) {
-      res.status(400).json({
+      res.status(401).json({
         data: null,
         message: "not authorized"
       })
     } else {
-      let {id, username, email, profileImg} = userInfo;
-      let ACCESS_TOKEN = jwt.sign({id, username, email, profileImg}, process.env.ACCESS_SECRET, {expiresIn: '1h'});
-      let REFRESH_TOKEN = jwt.sign({id, username, email, profileImg}, process.env.REFRESH_SECRET);
+      let {id, username, email, profileUrl, nickname} = userInfo;
+      let ACCESS_TOKEN = jwt.sign({id, username, email, profileUrl, nickname}, process.env.ACCESS_SECRET, {expiresIn: '1h'});
+      let REFRESH_TOKEN = jwt.sign({id, username, email, profileUrl, nickname}, process.env.REFRESH_SECRET);
 
       res.cookie('refreshToken', REFRESH_TOKEN,
         // {
