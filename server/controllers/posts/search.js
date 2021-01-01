@@ -3,13 +3,13 @@ const { Op } = require("sequelize");//!
 // const moment = require('moment');//최신날짜 subtract해주는 모듈
 
 module.exports = {
+
   get: async(req, res) => {
     let {keywords} = req.body;
     if(!keywords) {
       res.status(400).json({data: null, message: "insufficent parameters supplied"})
     }
     let arrayKeywords = keywords.split(' ');
-    
     let allPosts = arrayKeywords.reduce(async(acc, keyword) => {
       let foundPosts = await Post.findAll({
         where: {
@@ -36,7 +36,6 @@ module.exports = {
       }
       return acc;
     },[])
-
     let results = postIds.map(async(postId) => {
       let searchedPost = await Post.findOne({
         where: {
@@ -45,11 +44,10 @@ module.exports = {
       })
       return searchedPost.dataValues
     })
-
     res.status(200).json({data: {postsData: results}, message: "searched ok"});
-
   }
-}
+
+};
 
 //Op.gte 참고 - https://stackoverflow.com/questions/60355504/how-to-get-all-records-from-the-last-7-days-sequelize
 //Sequelize.fn('max', Sequelize.col('like')) - https://stackoverflow.com/questions/51916911/how-to-get-maxid-group-by-other-field-with-sequalize-js

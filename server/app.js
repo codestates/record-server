@@ -28,11 +28,8 @@ const usersRouter = require('./routes/users');
 app.use('/users', usersRouter);
 const postsRouter = require('./routes/posts');
 app.use('/posts', postsRouter);
-// const commentsRouter = require('./routes/comments');
-// app.use('/comments', commentsRouter);
-
-// const tagsRouter = require('./routes/tags');
-// app.use('/tags', tagsRouter);
+const commentsRouter = require('./routes/comments');
+app.use('/comments', commentsRouter);
 
 
 app.get('/', (req, res) => {
