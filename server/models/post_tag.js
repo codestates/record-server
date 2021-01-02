@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Post_Tag extends Model {
     /**
@@ -13,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       // models.post.belongsToMany(models.tag, {through: 'post_tag'});
       // models.tag.belongsToMany(models.post, {through: 'post_tag'});
+      // models.Post_Tag.belongsTo(models.Post);//N대1(다대1)
+      // models.Post_Tag.belongsTo(models.Tag);
     }
   };
   Post_Tag.init({
