@@ -14,7 +14,7 @@ module.exports = {
     if(!req.headers['authorization']) {//url?에 id가 안담겨있을때
       res.status(400).json({data: null, message: "insufficient parameters supplied"})
     }
-    let ACCESS_TOKEN = token.split(' ')[1];
+    let ACCESS_TOKEN = req.headers['authorization'].split(' ')[1];
     let payload = await jwt.verify(ACCESS_TOKEN, process.env.ACCESS_SECRET);
     let foundPosts = await Post.findAll({
       where: {

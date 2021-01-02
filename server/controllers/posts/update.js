@@ -1,10 +1,15 @@
-const {Post} = require('../../models');
+const {Post, Post_Tag, Tag} = require('../../models');
 const jwt = require('jsonwebtoken');
+const update = require('../comments/update');
+const {Op} = require('sequelize');
 require('dotenv').config();
 
 module.exports = {//글수정
 
   put: async(req, res) => {//:id
+
+    // console.log('------>>>>>>>', typeof req.params.id);
+
     if(!req.body.title || !req.body.contents || !req.params.id) {                              //Logic:필수값 유효성 검증
       res.status(400).json({ data: null, message: "insufficient parameters supplied" });
     }
@@ -16,28 +21,34 @@ module.exports = {//글수정
       if(err) {
         res.status(401).json({ data: null, message: "not authorized" });
       }
-      let targetPost = await Post.findOne({                                                    //Logic: 작성되지 않은 post 검사
+      let targetPost = await Post.findOne({
         where: {
-          userId: decoded.id,
           id: req.params.id
         }
-      })
+      });
+
       if(!targetPost) {
         res.status(404).json({data: null, message: "not found post"})
       }
-      let {imageUrl, title, contents} = req.body;
-      let updatedPost = await Post.update(
-        {                                                     //Logic:포스트 수정/업데이트
-          userId: decoded.id,
-          imageUrl: imageUrl,
-          title: title,
-          contents: contents
+      // let {imageUrl, title, contents} = req.body;
+      await Post.update(//! update는 사용법이 다름// 행위에 대한 결과를 돌려주지 않으므로 변수에 담을 수 없음
+        {
+          imageUrl: req.body.imageUrl,
+          title: req.body.title,
+          contents: req.body.contents
         },
-        {//새로운 포스트 DB생성
+        {
           where: {
-            id: req.params.id//!
+            id: req.params.id//!확인해보니 Number로 안 바꿔줘도 됨
           }
         });
+
+        
+        let updatedPost = await Post.findOne({
+          where: {id: req.params.id}
+        })
+        console.log('----------->>>>>>>>>',updatedPost);
+        
       let {tagNames} = req.body;
       tagNames.map(async(tagName) => {                                                          //Logic:새로운 태그가 들어왔으면 db에생성
         await Tag.findOrCreate({
@@ -53,12 +64,11 @@ module.exports = {//글수정
       foundTagIds.map(async(tagId) => {                                                    //Logic: join table DB에 없으면 생성
         await Post_Tag.findOrCreate({//수정한것이니까 create가 아님
           where: {
-            postId: updatedPost.id,
-            tagId: tagId
+            tagId: tagId 
           }
         });
       })
-      let {id, userId, title, contents, imageUrl, created_at, updated_at} = updatedPost.dataValues
+      let {id, userId, title, contents, imageUrl, created_at, updated_at} = updatedPost.dataValues;//!dataValues를 제거해도 상관없음
       res.status(200).json({ data: {postData: {id, userId, title, contents, imageUrl, created_at, updated_at}}, message: "updated ok" });
     });
     

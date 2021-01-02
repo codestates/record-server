@@ -7,11 +7,11 @@ module.exports = {
   get: async(req, res) => {
     let {keywords} = req.body;
     if(!keywords) {
-      res.status(400).json({data: null, message: "insufficent parameters supplied"})
+      res.status(400).json({data: null, message: "insufficient parameters supplied"})
     }
     let arrayKeywords = keywords.split(' ');
-    let allPosts = arrayKeywords.reduce(async(acc, keyword) => {
-      let foundPosts = await Post.findAll({
+    let allPosts = arrayKeywords.reduce((acc, keyword) => {
+      let foundPosts = Post.findAll({
         where: {
           [Op.or]: [{
               title: {
@@ -30,6 +30,9 @@ module.exports = {
       acc.concat(foundPosts);
       return acc;
     },[]);
+
+    console.log('===========>>>>>>>>',allPosts);
+
     let postIds = allPosts.reduce((acc, val) => {
       if(acc.indexOf(val.dataValues.id) === -1) {
         acc.push(val.dataValues.id);

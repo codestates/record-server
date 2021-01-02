@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // const { post, comment, tag, user } = sequelize.models;
-      // models.user.hasMany(comment);//1대다
-      // models.user.hasMany(post);
+      models.User.hasMany(models.Comment);//1대다
+      models.User.hasMany(models.Post);
     }
   };
   User.init({

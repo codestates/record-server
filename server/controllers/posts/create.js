@@ -1,6 +1,5 @@
 const {Post, Tag, Post_Tag} = require('../../models');
 const jwt = require('jsonwebtoken');
-const tags = require('./tags');
 require('dotenv').config();
  
 module.exports = {
@@ -17,13 +16,16 @@ module.exports = {
       if(err) {
         res.status(401).json({ data: null, message: "not authorized" });
       }
-      let {imageUrl, title, contents} = req.body;
+      // let {imageUrl, title, contents} = req.body;
       let newPost = await Post.create({//새로운 포스트 DB생성
           userId: decoded.id,
-          imageUrl: imageUrl,
-          title: title,
-          contents: contents
+          imageUrl: req.body.imageUrl,
+          title: req.body.title,
+          contents: req.body.contents
       });
+
+      // console.log('======>>>>>>>>>>',newPost);
+
       let {tagNames} = req.body;
       tagNames.map(async(tagName) => {//없는 태그 DB생성
         await Tag.findOrCreate({

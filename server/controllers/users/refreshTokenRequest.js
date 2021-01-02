@@ -29,7 +29,7 @@ module.exports = {
       })
     } else {
       let {id, email, username, profileUrl, nickname} = userInfo;
-      let newAccessToken = jwt.sign({id, email, username, profileUrl, nickname}, process.env.ACCESS_SECRET, {expiresIn:'2h'});
+      let newAccessToken = jwt.sign({id, email, username, profileUrl, nickname}, process.env.ACCESS_SECRET, {expiresIn:'24h'});
       res.status(200).json({
         data:{
           accessToken: newAccessToken,

@@ -20,8 +20,7 @@ module.exports = {
         const payload = await jwt.verify(accessToken, process.env.ACCESS_SECRET);
         const foundComment = await Comment.findOne({
             where: {
-                id: req.params.id,
-                userId: payload.id
+                id: req.params.id
             }
         });
         // console.log(foundComment);
@@ -31,27 +30,29 @@ module.exports = {
                 message: "not found comment"
             });
         } else {
-            const updatedComment = await Comment.update(
-                {
-                    contents: req.body.contents,
-                    userId: req.body.userId,
-                    postId: req.body.postId
-                },
-                {
-                    where: {
-                        id: req.params.id
-                    }
-                }
-            );
-            // console.log(updatedComment);
-            const { id, contents, userId, postId, created_at, updated_at } = updatedComment;
-            res.status(200).json({
-                data: {
-                    commentData: { id, contents, userId, postId, created_at, updated_at }
-                },
-                message: "updated ok"
-            });
+            await Comment.update(//!!!! update는 변수에 담아도 안된다. 밑에 findOne으로 변수에 담아줘야 한다.
+              {
+                  contents: req.body.contents,
+                  userId: payload.id,
+                  postId: req.body.postId
+              },
+              {
+                  where: {
+                      id: req.params.id
+                  }
+              }
+          );
+          let updatedComment = await Comment.findOne({
+            where: {id: req.params.id}
+          })
+          // console.log('---------->>>>>>>>>>',updatedComment);
+          const { id, contents, userId, postId, created_at, updated_at } = updatedComment;
+          res.status(200).json({
+              data: {
+                  commentData: { id, contents, userId, postId, created_at, updated_at }
+              },
+              message: "updated ok"
+          });
         }
     },
-
 };
