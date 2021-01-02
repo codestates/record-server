@@ -1,4 +1,5 @@
-'use strict';
+'use strict'; 
+
 const {
   Model
 } = require('sequelize');
@@ -11,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      
+      models.Comment.belongsTo(models.User);
+      models.Comment.belongsTo(models.Post);
     }
   };
   Comment.init({
