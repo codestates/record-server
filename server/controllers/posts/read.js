@@ -6,12 +6,33 @@ module.exports = {
 
   getPosts: async(req, res) => {//랜딩페이지에 모든 posts(!복수) 보내주는
     let allPosts = await Post.findAll();
-    let resultsPosts = allPosts.map(el => el.dataValues)//!
+    let resultsPosts = allPosts.map(el => el.dataValues)//! [{post user},{},{},...]
 
-    let allUsers = await User.findAll();
-    let resultsUsers = allUsers.map(el => el.dataValues)
+    let userIds = resultsPosts.map(el => el.userId);
 
-    res.status(200).json({postsData: resultsPosts, usersData: resultsUsers, message: "ok"});//!
+    let allUsers = userIds.map((userId) => {
+      return User.findOne({
+        where: {
+          id: userId
+        }
+      })
+      .then(user => user.dataValues);
+    })
+
+    console.log('--------->>>>>>>>>>',allUsers);
+
+    let resultsUsers = allUsers.map(el => {
+      return el.dataValues;
+    })
+
+    let results = [];
+    resultsPosts.forEach(post => {
+      resultsUsers.forEach(user => {
+        results.push({...post,...user});
+      })
+    })
+
+    res.status(200).json({postsData: results, message: "ok"});//!
   },
 
   getUserPosts: async(req, res) => {//해당 유저가 작성한 모든 posts(!복수) 보내주는
@@ -37,11 +58,21 @@ module.exports = {
     if(!req.params.id) {
       res.status(400).json({data: null, message:"insufficient parameters supplied"});
     }
+
+    
     let foundPost = await Post.findOne({
       where: {
         id: req.params.id
       }
+    });
+
+    let foundUser = await User.findOne({
+      where: {
+        id: foundPost.userId
+      }
     })
+    delete foundUser.dataValues.password;
+    
     if(!foundPost) {
       res.status(404).json({data: null, message: "not found post"});
     } else {
@@ -49,7 +80,8 @@ module.exports = {
       res.status(200).json({
         postData: {
             id, title, contents, imageUrl, userId, like, createdAt, updatedAt
-          }
+          },
+        userInfo: foundUser.dataValues
         ,
         message: "ok"
       })
