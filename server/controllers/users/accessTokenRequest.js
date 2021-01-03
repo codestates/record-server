@@ -29,11 +29,11 @@ module.exports = {
         message:"access token has been tempered"
       })
     } else {
+      
       let {id, username, email, profileUrl, nickname} = userInfo;
         res.status(200).json({
-          data: {
-            userInfo: {id, username, email, profileUrl, nickname}
-          }, 
+          userInfo: {id, username, email, profileUrl, nickname}
+          , 
           message: "ok"
         });
     }

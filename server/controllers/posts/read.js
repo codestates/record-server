@@ -1,4 +1,4 @@
-const {Post} = require('../../models');
+const {Post, User} = require('../../models');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -6,8 +6,12 @@ module.exports = {
 
   getPosts: async(req, res) => {//랜딩페이지에 모든 posts(!복수) 보내주는
     let allPosts = await Post.findAll();
-    let results = allPosts.map(el => el.dataValues)//!
-    res.status(200).json({data: {postsData: results}, message: "ok"});//!
+    let resultsPosts = allPosts.map(el => el.dataValues)//!
+
+    let allUsers = await User.findAll();
+    let resultsUsers = allUsers.map(el => el.dataValues)
+
+    res.status(200).json({postsData: resultsPosts, usersData: resultsUsers, message: "ok"});//!
   },
 
   getUserPosts: async(req, res) => {//해당 유저가 작성한 모든 posts(!복수) 보내주는
@@ -25,7 +29,7 @@ module.exports = {
       res.status(404).json({data: null, message: "not found posts"});
     } else {
       let results = foundPosts.map(el => el.dataValues);//!
-      res.status(200).json({data: {postsData: results}, message: "ok"});//!
+      res.status(200).json({postData: results, message: "ok"});//!
     }
   },
 
@@ -41,13 +45,12 @@ module.exports = {
     if(!foundPost) {
       res.status(404).json({data: null, message: "not found post"});
     } else {
-      let {id, title, contents, imageUrl, userId, like, created_at, updated_at} = foundPost;
+      let {id, title, contents, imageUrl, userId, like, createdAt, updatedAt} = foundPost;
       res.status(200).json({
-        data: {
-          postData: {
-            id, title, contents, imageUrl, userId, like, created_at, updated_at
+        postData: {
+            id, title, contents, imageUrl, userId, like, createdAt, updatedAt
           }
-        },
+        ,
         message: "ok"
       })
     }

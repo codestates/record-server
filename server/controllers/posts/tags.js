@@ -33,7 +33,7 @@ module.exports = {
     let results = searchedTags.map(async(tag) => {                                                    //Logic: join table DB에 없으면 생성
       return tag.dataValues.tagName;
     })
-    res.status(200).json({ data: {tagsData: results}, message: "ok" });
+    res.status(200).json({tagsData: results, message: "ok" });
   }
 
 };

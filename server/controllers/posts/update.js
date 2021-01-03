@@ -68,8 +68,8 @@ module.exports = {//글수정
           }
         });
       })
-      let {id, userId, title, contents, imageUrl, created_at, updated_at} = updatedPost.dataValues;//!dataValues를 제거해도 상관없음
-      res.status(200).json({ data: {postData: {id, userId, title, contents, imageUrl, created_at, updated_at}}, message: "updated ok" });
+      let {id, userId, title, contents, imageUrl, createdAt, updatedAt} = updatedPost.dataValues;//!dataValues를 제거해도 상관없음
+      res.status(200).json({postData: {id, userId, title, contents, imageUrl, createdAt, updatedAt}, message: "updated ok" });
     });
     
   }

@@ -18,8 +18,8 @@ module.exports = {
         // console.log(foundComments);
         const results = foundComments.map(comment => comment.dataValues);
         res.status(200).json({
-            data: { commentsData: results },
-            message: "ok"
+          commentsData: results,
+          message: "ok"
         });
     },
 
@@ -37,10 +37,10 @@ module.exports = {
             }
         });
         // console.log(foundComment);
-        const { id, contents, userId, postId, created_at, updated_at } = foundComment;
+        const { id, contents, userId, postId, createdAt, updatedAt } = foundComment;
         res.status(200).json({
             data: {
-                commentData: { id, contents, userId, postId, created_at, updated_at }
+                commentData: { id, contents, userId, postId, createdAt, updatedAt }
             },
             message: "ok"
         });

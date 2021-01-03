@@ -33,7 +33,7 @@ module.exports = {
     // console.log('===========>>>>>>>>',results);
     
     
-    res.status(200).json({data: {postsData: results}, message: "searched ok"});
+    res.status(200).json({postsData: results, message: "searched ok"});
   }
 
 };
