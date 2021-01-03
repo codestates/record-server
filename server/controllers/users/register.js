@@ -23,14 +23,12 @@ module.exports = {
     })
 
     if(!created) {
-      res.status(409).json("email already exists");
+      res.status(409).json({data: null, message: "email already exists"});
     } else {
       // console.log('-------->>>>>>>>>', newUser);
       let {id, username, email} = newUser;
       res.status(201).json({
-        data: {
-          userInfo: {id, username, email}
-        }, 
+        userInfo: {id, username, email}, 
         message: "successfully registered!"
       });
     }

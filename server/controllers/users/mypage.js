@@ -9,7 +9,7 @@ module.exports = {
       res.status(400).json({data: null, message: "insufficient parameters supplied"})
     }
 
-    let ACCESS_TOKEN = token.split(' ')[1];
+    let ACCESS_TOKEN = req.headers['authorization'].split(' ')[1];
     let payload = await jwt.verify(ACCESS_TOKEN, process.env.ACCESS_SECRET);
 
     let foundUser = await User.findOne({
@@ -20,11 +20,12 @@ module.exports = {
     if(!foundUser) {
       res.status(404).json({data: null, message: "not found user"});
     } else {
-      let {id, username, email, profileUrl, githubUrl, introduce, nickname, created_at, updated_at} = foundUser;
+      console.log('--------->>>>>>>>',foundUser);
+      let {id, username, email, profileUrl, githubUrl, introduce, nickname, createdAt, updatedAt} = foundUser;
       res.status(200).json({
         data: {
           userInfo: {
-            id, username, email, profileUrl, githubUrl, introduce, nickname, created_at, updated_at
+            id, username, email, profileUrl, githubUrl, introduce, nickname, createdAt, updatedAt
           }
         },
         message: "ok"
@@ -39,12 +40,12 @@ module.exports = {
       res.status(400).json({data: null, message: "insufficient parameters supplied"})
     }
 
-    let ACCESS_TOKEN = token.split(' ')[1];
+    let ACCESS_TOKEN = req.headers['authorization'].split(' ')[1];
     let payload = await jwt.verify(ACCESS_TOKEN, process.env.ACCESS_SECRET);
 
     let {username, profileUrl, githubUrl, introduce, nickname} = req.body;
 
-    let updatedUser = await User.update(
+    await User.update(
       {username, profileUrl, githubUrl, introduce, nickname},
       {
         where: {
@@ -52,16 +53,21 @@ module.exports = {
         }
       }
     )
+
+    let updatedUser = await User.findOne( {
+      where: {
+        id: payload.id
+      }
+    })
+
     if(!updatedUser) {
       res.status(401).json({data: null, message: "not authorized"});
     } else {
-      let {id, username, email, profileUrl, githubUrl, introduce, nickname, created_at, updated_at} = updatedUser;
+      let {id, username, email, profileUrl, githubUrl, introduce, nickname, createdAt, updatedAt} = updatedUser;
       res.status(200).json({
-        data: {
-          userInfo: {
-            id, username, email, profileUrl, githubUrl, introduce, nickname, created_at, updated_at
-          }
-        },
+        userInfo: {
+            id, username, email, profileUrl, githubUrl, introduce, nickname, createdAt, updatedAt
+          },
         message: "ok"
       })
     }

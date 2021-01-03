@@ -23,12 +23,10 @@ module.exports = {
             postId: req.body.postId,
         });
         // console.log(newComment);
-        const { id, contents, userId, postId, created_at, updated_at } = newComment;
+        const { id, contents, userId, postId, createdAt, updatedAt } = newComment;
         res.status(201).json({
-            data: {
-                commentData: { id, contents, userId, postId, created_at, updated_at }
-            },
-            message: "created ok"
+          commentData: { id, contents, userId, postId, createdAt, updatedAt },
+          message: "created ok"
         });
     },
 

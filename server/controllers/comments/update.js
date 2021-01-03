@@ -46,12 +46,10 @@ module.exports = {
             where: {id: req.params.id}
           })
           // console.log('---------->>>>>>>>>>',updatedComment);
-          const { id, contents, userId, postId, created_at, updated_at } = updatedComment;
+          const { id, contents, userId, postId, createdAt, updatedAt } = updatedComment;
           res.status(200).json({
-              data: {
-                  commentData: { id, contents, userId, postId, created_at, updated_at }
-              },
-              message: "updated ok"
+            commentData: { id, contents, userId, postId, createdAt, updatedAt },
+            message: "updated ok"
           });
         }
     },

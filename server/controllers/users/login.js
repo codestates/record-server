@@ -41,7 +41,7 @@ module.exports = {
         //   sameSite: false
         // }//! http에서는 이 option이 필요없는 것 같다.
       );
-      res.status(200).json({data: {accessToken: ACCESS_TOKEN}, message: "successfully token issued!"})
+      res.status(200).json({accessToken: ACCESS_TOKEN, message: "successfully token issued!"})
     }
 
   }

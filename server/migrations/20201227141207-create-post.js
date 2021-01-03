@@ -19,7 +19,8 @@ module.exports = {
       },
       imageUrl: {
         type: Sequelize.BLOB,
-        allowNull: true
+        allowNull: false,
+        defaultValue: 'null'
       },
       like: {
         type: Sequelize.INTEGER

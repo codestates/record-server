@@ -45,8 +45,8 @@ module.exports = {
           tagId: tagId
         });
       })
-      let {id, userId, title, contents, imageUrl, created_at, updated_at} = newPost.dataValues
-      res.status(201).json({ data: {postData: {id, userId, title, contents, imageUrl, created_at, updated_at}}, message: "created ok" });
+      let {id, userId, title, contents, imageUrl, createdAt, updatedAt} = newPost.dataValues
+      res.status(201).json({postData: {id, userId, title, contents, imageUrl, createdAt, updatedAt}, message: "created ok" });
     });
   }
 
@@ -114,8 +114,8 @@ module.exports = {
 //           tagId: tagId
 //         }]);
 
-//       let {id, userId, title, contents, imageUrl, created_at, updated_at} = newPost.dataValues
-//       res.status(201).json({ data: {postData: {id, userId, title, contents, imageUrl, created_at, updated_at}}, message: "created ok" });
+//       let {id, userId, title, contents, imageUrl, createdAt, updatedAt} = newPost.dataValues
+//       res.status(201).json({ data: {postData: {id, userId, title, contents, imageUrl, createdAt, updatedAt}}, message: "created ok" });
 //     });
 //   }
 

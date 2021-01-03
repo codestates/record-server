@@ -9,12 +9,12 @@ module.exports = {
         // console.log(req.params);
         if (!req.params.id) {
             res.status(400).json({
-                data: null,
-                message: "insufficient parameters supplied"
+              data: null,
+              message: "insufficient parameters supplied"
             });
         }
         if (!req.headers['authorization']) {
-            res.status(403).json({ data: null, message: "invalid access token" });
+          res.status(403).json({ data: null, message: "invalid access token" });
         }
         const accessToken = req.headers['authorization'].split(' ')[1];
         const payload = await jwt.verify(accessToken, process.env.ACCESS_SECRET);

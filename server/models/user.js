@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     username: DataTypes.STRING,
     email: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    profileUrl: DataTypes.BLOB,
+    introduce: DataTypes.STRING,
+    nickname: DataTypes.STRING,
+    githubUrl: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',//!!!!!!! 이 user모델을 require하는쪽에서는 이 이름을 써야함(대문자 주의)

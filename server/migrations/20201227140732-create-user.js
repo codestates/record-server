@@ -19,19 +19,23 @@ module.exports = {
       },
       profileUrl: {
         type: Sequelize.BLOB,
-        allowNull: true//!프론트에서 디폴트이미지 뿌려줄때를 위해
+        allowNull: false,//!프론트에서 디폴트이미지 뿌려줄때를 위해
+        defaultValue: 'null'//!!!이 null로해야됨 //allowNull:true로하면안됨
       },
       introduce: {
-        type: Sequelize.TEXT,
-        allowNull: true
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'null'
       },
       nickname: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false,
+        defaultValue: 'null'
       },
       githubUrl: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false,
+        defaultValue: 'null'
       },
       createdAt: {
         allowNull: false,
