@@ -20,7 +20,7 @@ module.exports = {
     if(!foundUser) {
       res.status(404).json({data: null, message: "not found user"});
     } else {
-      console.log('--------->>>>>>>>',foundUser);
+      // console.log('--------->>>>>>>>',foundUser);
       let {id, username, email, profileUrl, githubUrl, introduce, nickname, createdAt, updatedAt} = foundUser;
       res.status(200).json({
         data: {
@@ -43,10 +43,10 @@ module.exports = {
     let ACCESS_TOKEN = req.headers['authorization'].split(' ')[1];
     let payload = await jwt.verify(ACCESS_TOKEN, process.env.ACCESS_SECRET);
 
-    let {username, profileUrl, githubUrl, introduce, nickname} = req.body;
+    let {username, profileUrl, githubUrl, introduce, nickname, createdAt, updatedAt, password} = req.body;
 
     await User.update(
-      {username, profileUrl, githubUrl, introduce, nickname},
+      {username, profileUrl, githubUrl, introduce, nickname, createdAt, updatedAt, password},
       {
         where: {
         id: payload.id
