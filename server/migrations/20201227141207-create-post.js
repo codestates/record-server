@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       imageUrl: {
-        type: Sequelize.TEXT('long'),
+        type: Sequelize.BLOB,
         allowNull: false
       },
       like: {

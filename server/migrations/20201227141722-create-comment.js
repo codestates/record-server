@@ -14,6 +14,13 @@ module.exports = {
       contents: {
         type: Sequelize.TEXT
       },
+      profileUrl: {
+        type: Sequelize.BLOB,
+        allowNull: false
+      },
+      username: {
+        type: Sequelize.STRING
+      },
       userId: {
         type: Sequelize.INTEGER,
         references: {
