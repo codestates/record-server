@@ -19,7 +19,7 @@ app.use(express.urlencoded({extended: false}));//body-parser -> URI 처리 fsdsd
 
 app.use(cors({
   origin: [
-    'http://localhost:4000',//!배포할때 꼭 추가할것
+    'http://localhost:3000',//!배포할때 꼭 추가할것
     //public IP??
   ],
   methods: ['OPTIONS','GET','POST','PUT','DELETE'],

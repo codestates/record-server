@@ -4,16 +4,30 @@ require('dotenv').config();
 
 module.exports = {
 
+  // {
+  //   "title": "버퍼 테스트",
+  //   "contents": "테스트",
+  //   "imageUrl": {"type":"Buffer","data":[100,97,116,97,58,14,79,8,113,97,65,43,57,55,89,69,88,51,66,101,70,86,112,121,112,121,121,121,80,81,104]}
+  // }
+
   getPosts: async(req, res) => {//랜딩페이지에 모든 posts(!복수) 보내주는
+    
     let allPosts = await Post.findAll();
-    let resultsPosts = allPosts.map(el => el.dataValues)//! [{post user},{},{},...]
+    let beforeConvertedPosts = allPosts.map(el => el.dataValues)//! [{post user},{},{},...]
+
+    let convertedPosts = beforeConvertedPosts.map(el => {
+      let convertedImage = Buffer.from(el.imageUrl).toString('base64');
+      return convertedImage;
+    })
+
+    console.log('--------->>>>>>',convertedPosts);
 
     let allUsers = await User.findAll();
     let resultsUsers = allUsers.map(el => {
       return el.dataValues;
     })
 
-    res.status(200).json({postsData: resultsPosts, usersData: resultsUsers, message: "ok"});//!
+    res.status(200).json({postsData: convertedPosts, usersData: resultsUsers, message: "ok"});//!
   },
 
   getUserPosts: async(req, res) => {//해당 유저가 작성한 모든 posts(!복수) 보내주는
