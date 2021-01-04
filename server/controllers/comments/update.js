@@ -34,7 +34,9 @@ module.exports = {
               {
                   contents: req.body.contents,
                   userId: payload.id,
-                  postId: req.body.postId
+                  postId: req.body.postId,
+                  username: req.body.username,
+                  profileUrl: req.body.profileUrl
               },
               {
                   where: {
@@ -46,9 +48,9 @@ module.exports = {
             where: {id: req.params.id}
           })
           // console.log('---------->>>>>>>>>>',updatedComment);
-          const { id, contents, userId, postId, createdAt, updatedAt } = updatedComment;
+          const { id, contents, userId, postId, createdAt, updatedAt, username, profileUrl } = updatedComment;
           res.status(200).json({
-            commentData: { id, contents, userId, postId, createdAt, updatedAt },
+            commentData: { id, contents, userId, postId, createdAt, updatedAt, username, profileUrl },
             message: "updated ok"
           });
         }

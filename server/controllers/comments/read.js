@@ -37,10 +37,10 @@ module.exports = {
             }
         });
         // console.log(foundComment);
-        const { id, contents, userId, postId, createdAt, updatedAt } = foundComment;
+        const { id, contents, userId, postId, createdAt, updatedAt, username, profileUrl } = foundComment;
         res.status(200).json({
             data: {
-                commentData: { id, contents, userId, postId, createdAt, updatedAt }
+                commentData: { id, contents, userId, postId, createdAt, updatedAt, username, profileUrl }
             },
             message: "ok"
         });

@@ -21,11 +21,13 @@ module.exports = {
             userId: payload.id,
             contents: req.body.contents,
             postId: req.body.postId,
+            username: req.body.username,
+            profileUrl: req.body.profileUrl
         });
         // console.log(newComment);
-        const { id, contents, userId, postId, createdAt, updatedAt } = newComment;
+        const { id, contents, userId, postId, createdAt, updatedAt, username, profileUrl } = newComment;
         res.status(201).json({
-          commentData: { id, contents, userId, postId, createdAt, updatedAt },
+          commentData: { id, contents, userId, postId, createdAt, updatedAt, username, profileUrl },
           message: "created ok"
         });
     },
