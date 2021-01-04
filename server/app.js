@@ -13,11 +13,13 @@ const controllers = require('./controllers');//!
 
 app.use(cookieParser());//cookie-parser
 app.use(express.json());//body-parser -> json처리
-app.use(express.urlencoded({extended: false}));//body-parser -> URI 처리 fsdsdf=q?sfdsdf:id //extend는 확장판 이므로 extended: false는 default로
+app.use(express.urlencoded({extended: true}));//body-parser -> URI 처리 fsdsdf=q?sfdsdf:id //extend는 확장판 이므로 extended: false는 default로
+                                              //!extended: false로 하면 TEXT('long')사용 못함
+                                              //!extended: true로 해야 긴 string을 주고받을수있음
 
 app.use(cors({
   origin: [
-    'http://localhost:3000',
+    'http://18.188.241.229', '*'//!배포할때 꼭 추가할것
     //public IP??
   ],
   methods: ['OPTIONS','GET','POST','PUT','DELETE'],
