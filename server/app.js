@@ -19,7 +19,7 @@ app.use(express.urlencoded({extended: true}));//body-parser -> URI 처리 fsdsdf
 
 app.use(cors({
   origin: [
-    'http://18.188.241.229',//!배포할때 꼭 추가할것
+    'http://18.188.241.229', '*'//!배포할때 꼭 추가할것
     //public IP??
   ],
   methods: ['OPTIONS','GET','POST','PUT','DELETE'],
