@@ -26,25 +26,25 @@ module.exports = {
 
       // console.log('======>>>>>>>>>>',newPost);
 
-      let {tagNames} = req.body;
-      tagNames.map(async(tagName) => {//없는 태그 DB생성
-        await Tag.findOrCreate({
-          where: {tagName: tagName}
-        });
-      })
-      let foundTagIds = tagNames.map(async(tagName) => {//태그id만 추출한 배열
-        let foundTag = await Tag.findOne({
-          where: {tagName: tagName}
-        });
-        return foundTag.id;
-      })
+      // let {tagNames} = req.body;
+      // tagNames.map(async(tagName) => {//없는 태그 DB생성
+      //   await Tag.findOrCreate({
+      //     where: {tagName: tagName}
+      //   });
+      // })
+      // let foundTagIds = tagNames.map(async(tagName) => {//태그id만 추출한 배열
+      //   let foundTag = await Tag.findOne({
+      //     where: {tagName: tagName}
+      //   });
+      //   return foundTag.id;
+      // })
     
-      foundTagIds.map(async(tagId) => {//join table에 입력
-        await Post_Tag.create({//postId는 unique하니까 create
-          postId: newPost.id,
-          tagId: tagId
-        });
-      })
+      // foundTagIds.map(async(tagId) => {//join table에 입력
+      //   await Post_Tag.create({//postId는 unique하니까 create
+      //     postId: newPost.id,
+      //     tagId: tagId
+      //   });
+      // })
       let {id, userId, title, contents, imageUrl, createdAt, updatedAt} = newPost.dataValues
       res.status(201).json({postData: {id, userId, title, contents, imageUrl, createdAt, updatedAt}, message: "created ok" });
     });
