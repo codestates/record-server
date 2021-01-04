@@ -17,7 +17,8 @@ module.exports = {
 
     let convertedPosts = beforeConvertedPosts.map(el => {
       let convertedImage = Buffer.from(el.imageUrl).toString('base64');
-      return convertedImage;
+      delete el.imageUrl
+      return {...el, convertedImage};
     })
 
     console.log('--------->>>>>>',convertedPosts);
