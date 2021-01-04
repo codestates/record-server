@@ -18,9 +18,8 @@ module.exports = {
         type: Sequelize.TEXT
       },
       imageUrl: {
-        type: Sequelize.BLOB,
-        allowNull: false,
-        defaultValue: 'null'
+        type: Sequelize.TEXT('long'),
+        allowNull: false
       },
       like: {
         type: Sequelize.INTEGER

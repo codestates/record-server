@@ -18,9 +18,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       profileUrl: {
-        type: Sequelize.BLOB,
-        allowNull: false,//!프론트에서 디폴트이미지 뿌려줄때를 위해
-        defaultValue: 'null'//!!!이 null로해야됨 //allowNull:true로하면안됨
+        type: Sequelize.TEXT('long'),
+        allowNull: false,//!프론트에서 디폴트이미지 뿌려줄때를 위해//!!!이 null로해야됨 //allowNull:true로하면안됨
       },
       introduce: {
         type: Sequelize.STRING,
