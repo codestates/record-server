@@ -13,27 +13,24 @@ module.exports = {
   getPosts: async(req, res) => {//랜딩페이지에 모든 posts(!복수) 보내주는
     
     let allPosts = await Post.findAll();
-    let beforeConvertedPosts = allPosts.map(el => el.dataValues)//! [{post user},{},{},...]
+    let resultPosts = allPosts.map(el => el.dataValues)//! [{post user},{},{},...]
 
-    let convertedPosts = beforeConvertedPosts.map(el => {
-      let imageUrl = Buffer.from(el.imageUrl).toString('base64');
-      delete el.imageUrl
-      return {...el, imageUrl};
-    })
-
-    console.log('--------->>>>>>',convertedPosts);
 
     let allUsers = await User.findAll();
-    let beforeConvertedUsers = allUsers.map(el => {
+    let resultUsers = allUsers.map(el => {
       return el.dataValues;
     });
-    let convertedUsers = beforeConvertedUsers.map(el => {
-      let profileUrl = Buffer.from(el.profileUrl).toString('base64');//!toString이 인코딩기능이있구나
-      delete el.profileUrl
-      return {...el, profileUrl};
+
+    let results = [];
+    resultPosts.forEach(post => {
+      resultUsers.forEach(user => {
+        if(post.userId === user.id) {
+          results.push({...post, user})
+        }
+      })
     })
 
-    res.status(200).json({postsData: convertedPosts, usersData: convertedUsers, message: "ok"});//!
+    res.status(200).json({results: results, postsData: resultPosts, usersData: resultUsers, message: "ok"});//!
   },
 
   getUserPosts: async(req, res) => {//해당 유저가 작성한 모든 posts(!복수) 보내주는
@@ -122,3 +119,37 @@ module.exports = {
 //     isNewRecord: false
 //   }
 // ]
+
+// 아래 코드는 서버에서 buffer를 base64로 변환해서 보내주는 코드 -> too large에러
+// getPosts: async(req, res) => {//랜딩페이지에 모든 posts(!복수) 보내주는
+    
+//   let allPosts = await Post.findAll();
+//   let beforeConvertedPosts = allPosts.map(el => el.dataValues)//! [{post user},{},{},...]
+
+//   let convertedPosts = beforeConvertedPosts.map(el => {
+//     let imageUrl = Buffer.from(el.imageUrl).toString('base64');
+//     // delete el.imageUrl
+//     return {...el, imageUrl};
+//   })
+
+
+//   let allUsers = await User.findAll();
+//   let beforeConvertedUsers = allUsers.map(el => {
+//     return el.dataValues;
+//   });
+//   let convertedUsers = beforeConvertedUsers.map(el => {
+//     let profileUrl = Buffer.from(el.profileUrl).toString('base64');//!toString이 인코딩기능이있구나
+//     // delete el.profileUrl
+//     return {...el, profileUrl};
+//   })
+
+//   let results = convertedPosts.forEach(post => {
+//     convertedUsers.forEach(user => {
+//       if(post.userId === user.id) {
+//         return {...post, user}
+//       }
+//     })
+//   })
+
+//   res.status(200).json({results: results, postsData: convertedPosts, usersData: convertedUsers, message: "ok"});//!
+// }
