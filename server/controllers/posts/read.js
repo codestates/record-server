@@ -16,19 +16,24 @@ module.exports = {
     let beforeConvertedPosts = allPosts.map(el => el.dataValues)//! [{post user},{},{},...]
 
     let convertedPosts = beforeConvertedPosts.map(el => {
-      let convertedImage = Buffer.from(el.imageUrl).toString('base64');
+      let imageUrl = Buffer.from(el.imageUrl).toString('base64');
       delete el.imageUrl
-      return {...el, convertedImage};
+      return {...el, imageUrl};
     })
 
     console.log('--------->>>>>>',convertedPosts);
 
     let allUsers = await User.findAll();
-    let resultsUsers = allUsers.map(el => {
+    let beforeConvertedUsers = allUsers.map(el => {
       return el.dataValues;
+    });
+    let convertedUsers = beforeConvertedUsers.map(el => {
+      let profileUrl = Buffer.from(el.profileUrl).toString('base64');//!toString이 인코딩기능이있구나
+      delete el.profileUrl
+      return {...el, profileUrl};
     })
 
-    res.status(200).json({postsData: convertedPosts, usersData: resultsUsers, message: "ok"});//!
+    res.status(200).json({postsData: convertedPosts, usersData: convertedUsers, message: "ok"});//!
   },
 
   getUserPosts: async(req, res) => {//해당 유저가 작성한 모든 posts(!복수) 보내주는
